@@ -1,68 +1,91 @@
 interface IMovementService {
-  getNextKnightMove: (position: string) => Array<object>;
+  getNextKnightMove: () => Array<object>;
 }
-interface IMovement {
+export interface IMovement {
   x: number,
-  y: number
+  y: number,
+  iteration?: number,
 }
 
 export default class MovementService implements IMovementService {
   private positionMap:IMovement = {x: 0, y: 0};
-  constructor(position:string) {
-    this.positionMap.x = this.positionToNumber(position);
-    this.positionMap.y = parseInt(position[1], 10);
+  constructor(position:string | IMovement) {
+    if (typeof position === 'string') {
+      this.positionMap.x = this.positionToNumber(position);
+      this.positionMap.y = parseInt(position[1], 10);
+      this.positionMap.iteration = 1;
+    } else {
+      this.positionMap.x = position.x;
+      this.positionMap.y = position.y;
+      this.positionMap.iteration = 2;
+    }
   }
   private getX = () => this.positionMap.x;
   private getY = () => this.positionMap.y;
-  private isValidMove(position: number): boolean {
-    return (position > 88 && position < 11)
-  }
+  private getIteration = () => this.positionMap.iteration;
+  
   private positionToNumber(position: string): number {
     return position.charCodeAt(0) - 64;
   }
 
   private getMovimentTop(odd:boolean): IMovement {
     const tempPosition:IMovement = {x: 0, y:0};
+    tempPosition.iteration = this.getIteration();
     if (odd) {
       tempPosition.x = this.getX() + 1;
+    } else {
+      tempPosition.x = this.getX() - 1;
     }
-    tempPosition.x = this.getX() - 1;
     tempPosition.y = this.getY() + 2;
     return tempPosition;
   }
   private getMovimentBottom(odd:boolean): IMovement {
     const tempPosition:IMovement = {x: 0, y:0};
+    tempPosition.iteration = this.getIteration();
     if (odd) {
       tempPosition.x = this.getX() + 1;
+    } else {
+      tempPosition.x = this.getX() - 1;
     }
-    tempPosition.x = this.getX() - 1;
     tempPosition.y = this.getY() - 2;
     return tempPosition;
   }
 
   private getMovimentLeft(odd:boolean): IMovement {
     const tempPosition:IMovement = {x: 0, y:0};
+    tempPosition.iteration = this.getIteration();
     tempPosition.x = this.getX() - 2;
     if (odd) {
       tempPosition.y = this.getY() + 1;
+    } else {
+      tempPosition.y = this.getY() - 1;
     }
-    tempPosition.y = this.getX() - 1;
     return tempPosition;
   }
   private getMovimentRight(odd:boolean): IMovement {
     const tempPosition:IMovement = {x: 0, y:0};
+    tempPosition.iteration = this.getIteration();
     tempPosition.x = this.getX() + 2;
     if (odd) {
       tempPosition.y = this.getY() + 1;
+    } else {
+      tempPosition.y = this.getY() - 1;
     }
-    tempPosition.y = this.getX() - 1;
     return tempPosition;
   }
 
+  private positionToNumeric(position: IMovement): number {
+    return parseInt(`${position.x}${position.y}`, 10);
+  }
+  private isValidMovement(position: IMovement) {
+    const value = this.positionToNumeric(position);
+    if (value > 88 || value < 11) return false;
+    if(position.x === 0 || position.y === 0) return false;
+    return true;
+  }
 
-  public getNextKnightMove(): Array<object> {
+  public getNextKnightMove(): Array<IMovement> {
     const result = [];
-    // const element = array[index];
     result.push(this.getMovimentTop(false));
     result.push(this.getMovimentTop(true));
     result.push(this.getMovimentBottom(false));
@@ -73,15 +96,8 @@ export default class MovementService implements IMovementService {
     result.push(this.getMovimentRight(false));
     result.push(this.getMovimentRight(true));
 
+    const answer = result.filter(item => this.isValidMovement(item))
     
-    // const objRes: Array<object> = result.map(pos: Map => {
-    //   const obj = pos.forEach((value: number, key: string) => ({key, value}))
-    //   console.log('obj', obj);
-      
-    //   return obj;
-    // })
-    // console.log(objRes);
-
-    return result;
+    return answer;
   }
 }

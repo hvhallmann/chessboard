@@ -2,7 +2,7 @@
 import { MovementDao } from '@daos';
 // import { Movement } from '@services';
 // const Movement = require('../services/Movements');
-import Movement from '../services/Movements';
+import Movement, { IMovement} from '../services/Movements';
 import { logger } from '@shared';
 import { Request, Response, Router, Express } from 'express';
 import { BAD_REQUEST, CREATED, OK } from 'http-status-codes';
@@ -50,10 +50,15 @@ router.get('/options', async (req: Request, res: Response) => {
         }
 
         const MovementClass = new Movement(position);
-        const result: Array<object> = MovementClass.getNextKnightMove();
-
-        // const movements = await movementDao.getAll();
-        return res.status(OK).json(result);
+        let finalResult: Array<IMovement> = MovementClass.getNextKnightMove();
+        const mapKnightMoves: Array<Movement> = finalResult.map((knightMov: IMovement) => new Movement(knightMov));
+        mapKnightMoves.forEach(movement => {
+            const result: Array<IMovement> = movement.getNextKnightMove();
+            finalResult = finalResult.concat(result);
+        })
+        console.log('final', finalResult);
+        
+        return res.status(OK).json(finalResult);
     } catch (err) {
         logger.error(err.message, err);
         return res.status(BAD_REQUEST).json({
