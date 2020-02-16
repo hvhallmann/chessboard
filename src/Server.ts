@@ -2,6 +2,7 @@ import cookieParser from 'cookie-parser';
 import express from 'express';
 import { Request, Response } from 'express';
 import logger from 'morgan';
+const cors = require('cors');
 import path from 'path';
 import BaseRouter from './routes';
 
@@ -9,6 +10,7 @@ import BaseRouter from './routes';
 const app = express();
 
 // Add middleware/settings/routes to express.
+app.use(cors())
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
