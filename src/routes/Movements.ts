@@ -1,6 +1,6 @@
 
 import { MovementDao } from '@daos';
-import Movement, { IMovement} from '../services/Movements';
+import MovementActions from '../services/MovementActions';
 import { logger } from '@shared';
 import { Request, Response, Router, Express } from 'express';
 import { BAD_REQUEST, CREATED, OK } from 'http-status-codes';
@@ -33,27 +33,23 @@ router.get('/all', async (req: Request, res: Response) => {
 router.get('/options', async (req: Request, res: Response) => {
     const messageError =  'Selected only accepts inputs from A1 to H8'
     try {
-        console.log('req', req.query.selected);
-        const position: string = req.query && req.query.selected; // && req.query.selected.split('');
+        const position: string = req.query && req.query.selected;
         logger.info(`Going to query horse movements from position: ${position}`);
+
+        // validation
         if (!position) return res.status(BAD_REQUEST).json({ error: messageError });    
-
         if (position.length > 2) return res.status(BAD_REQUEST).json({ error: messageError });
-
         if(position.charCodeAt(0) < 65 || position.charCodeAt(0) > 72
             || position.charCodeAt(1) < 49 || position.charCodeAt(1) > 56
             ) {
             return res.status(BAD_REQUEST).json({ error: messageError });
         }
 
-        const MovementClass = new Movement(position);
-        let finalResult: Array<IMovement> = MovementClass.getNextKnightMove();
-        const mapKnightMoves: Array<Movement> = finalResult.map((knightMov: IMovement) => new Movement(knightMov));
-        mapKnightMoves.forEach(movement => {
-            const result: Array<IMovement> = movement.getNextKnightMove();
-            finalResult = finalResult.concat(result);
-        })
-        // console.log('final', finalResult);
+        // action
+        const movementActions = new MovementActions()
+        const finalResult = movementActions.getKnightMoves(position);
+
+        logger.info(`Query horse movements ok with ${finalResult.length} positions`);
         
         return res.status(OK).json(finalResult);
     } catch (err) {
