@@ -1,20 +1,17 @@
 
 import { MovementDao } from '@daos';
-// import { Movement } from '@services';
-// const Movement = require('../services/Movements');
 import Movement, { IMovement} from '../services/Movements';
 import { logger } from '@shared';
 import { Request, Response, Router, Express } from 'express';
 import { BAD_REQUEST, CREATED, OK } from 'http-status-codes';
 import { paramMissingError } from '@shared';
-import { ParamsDictionary } from 'express-serve-static-core';
 
 // Init shared
 const router = Router();
 const movementDao = new MovementDao();
 
 /******************************************************************************
- *                      Get All Users - "GET /api/users/all"
+ *                      Get All movements - "GET /api/movement/all"
  ******************************************************************************/
 
 router.get('/all', async (req: Request, res: Response) => {
@@ -56,7 +53,7 @@ router.get('/options', async (req: Request, res: Response) => {
             const result: Array<IMovement> = movement.getNextKnightMove();
             finalResult = finalResult.concat(result);
         })
-        console.log('final', finalResult);
+        // console.log('final', finalResult);
         
         return res.status(OK).json(finalResult);
     } catch (err) {
