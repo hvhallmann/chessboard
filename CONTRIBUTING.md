@@ -11,3 +11,7 @@ Clone remote repository, and run `npm install` command
 After install, run `npm run start:dev`
 
 Check for env variables on **/env** folder. You can check for variables according to environment(development/test/production)
+
+### Test
+
+Tests are made with [jasmine](https://jasmine.github.io/index.html) framework. Run it with `npm test`. Some errors will display on command line, but that are just stack traces from expected errors inside the tests. The info at the end is the real result;

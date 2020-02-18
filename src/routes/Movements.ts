@@ -31,14 +31,15 @@ router.get('/all', async (req: Request, res: Response) => {
  ******************************************************************************/
 
 router.get('/options', async (req: Request, res: Response) => {
-    const messageError =  'Selected only accepts inputs from A1 to H8'
+    const messageError =  'Selected only accepts inputs from A1 to H8';
+    const missingParam =  'At least one query string parameter ?selected, is required';
     try {
         const position: string = req.query && req.query.selected;
         logger.info(`Going to query horse movements from position: ${position}`);
 
         // validation
-        if (!position) return res.status(BAD_REQUEST).json({ error: messageError });    
-        if (position.length > 2) return res.status(BAD_REQUEST).json({ error: messageError });
+        if (!position) return res.status(BAD_REQUEST).json({ error: missingParam });    
+        if (position.length !== 2) return res.status(BAD_REQUEST).json({ error: messageError });
         if(position.charCodeAt(0) < 65 || position.charCodeAt(0) > 72
             || position.charCodeAt(1) < 49 || position.charCodeAt(1) > 56
             ) {
