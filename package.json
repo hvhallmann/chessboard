@@ -42,14 +42,14 @@
     "@types/jasmine": "^3.5.4",
     "@types/jsonfile": "^5.0.0",
     "@types/morgan": "^1.7.37",
-    "@types/node": "^13.7.1"
-  },
-  "devDependencies": {
-    "@types/supertest": "^2.0.8",
+    "@types/node": "^13.7.1",
+    "jsonfile": "^5.0.0",
     "find": "^0.3.0",
     "fs-extra": "^8.1.0",
+    "@types/supertest": "^2.0.8"
+  },
+  "devDependencies": {
     "jasmine": "^3.5.0",
-    "jsonfile": "^5.0.0",
     "nodemon": "^2.0.2",
     "supertest": "^4.0.2"
   }
