@@ -1,1 +1,1 @@
-web: node -r module-alias/register ./dist
+web: npm run herok

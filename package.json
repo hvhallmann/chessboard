@@ -8,7 +8,8 @@
     "start:dev": "nodemon --config nodemon.json",
     "test": "nodemon --config nodemon.test.json",
     "version": "nodemon --config nodemon.test.json",
-    "postinstall": "npm run build"
+    "postinstall": "npm run build",
+    "herok": "ts-node -r tsconfig-paths/register ./src --env=development"
   },
   "engines": {
     "node": "10.15.3"
