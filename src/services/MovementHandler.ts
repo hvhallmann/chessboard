@@ -1,15 +1,15 @@
 interface IMovementService {
   getNextKnightMove: () => Array<object>;
 }
-export interface IMovement {
+export interface IMovementHandler {
   x: number,
   y: number,
   iteration?: number,
 }
 
 export default class MovementService implements IMovementService {
-  private positionMap:IMovement = {x: 0, y: 0};
-  constructor(position:string | IMovement) {
+  private positionMap:IMovementHandler = {x: 0, y: 0};
+  constructor(position:string | IMovementHandler) {
     if (typeof position === 'string') {
       this.positionMap.x = this.positionToNumber(position);
       this.positionMap.y = parseInt(position[1], 10);
@@ -28,8 +28,8 @@ export default class MovementService implements IMovementService {
     return position.charCodeAt(0) - 64;
   }
 
-  private getMovimentTop(odd:boolean): IMovement {
-    const tempPosition:IMovement = {x: 0, y:0};
+  private getMovimentTop(odd:boolean): IMovementHandler {
+    const tempPosition:IMovementHandler = {x: 0, y:0};
     tempPosition.iteration = this.getIteration();
     if (odd) {
       tempPosition.x = this.getX() + 1;
@@ -39,8 +39,8 @@ export default class MovementService implements IMovementService {
     tempPosition.y = this.getY() + 2;
     return tempPosition;
   }
-  private getMovimentBottom(odd:boolean): IMovement {
-    const tempPosition:IMovement = {x: 0, y:0};
+  private getMovimentBottom(odd:boolean): IMovementHandler {
+    const tempPosition:IMovementHandler = {x: 0, y:0};
     tempPosition.iteration = this.getIteration();
     if (odd) {
       tempPosition.x = this.getX() + 1;
@@ -51,8 +51,8 @@ export default class MovementService implements IMovementService {
     return tempPosition;
   }
 
-  private getMovimentLeft(odd:boolean): IMovement {
-    const tempPosition:IMovement = {x: 0, y:0};
+  private getMovimentLeft(odd:boolean): IMovementHandler {
+    const tempPosition:IMovementHandler = {x: 0, y:0};
     tempPosition.iteration = this.getIteration();
     tempPosition.x = this.getX() - 2;
     if (odd) {
@@ -62,8 +62,8 @@ export default class MovementService implements IMovementService {
     }
     return tempPosition;
   }
-  private getMovimentRight(odd:boolean): IMovement {
-    const tempPosition:IMovement = {x: 0, y:0};
+  private getMovimentRight(odd:boolean): IMovementHandler {
+    const tempPosition:IMovementHandler = {x: 0, y:0};
     tempPosition.iteration = this.getIteration();
     tempPosition.x = this.getX() + 2;
     if (odd) {
@@ -74,17 +74,17 @@ export default class MovementService implements IMovementService {
     return tempPosition;
   }
 
-  private positionToNumeric(position: IMovement): number {
+  private positionToNumeric(position: IMovementHandler): number {
     return parseInt(`${position.x}${position.y}`, 10);
   }
-  private isValidMovement(position: IMovement) {
+  private isValidMovement(position: IMovementHandler) {
     const value = this.positionToNumeric(position);
     if (value > 88 || value < 11) return false;
     if(position.x === 0 || position.y === 0) return false;
     return true;
   }
 
-  public getNextKnightMove(): Array<IMovement> {
+  public getNextKnightMove(): Array<IMovementHandler> {
     const result = [];
     result.push(this.getMovimentTop(false));
     result.push(this.getMovimentTop(true));

@@ -1,4 +1,4 @@
-import Movement, { IMovement} from './Movements';
+import MovementHandler, { IMovementHandler } from './MovementHandler';
 
 interface IMovementActions {
   getKnightMoves: (position:string) => Array<object>;
@@ -6,14 +6,14 @@ interface IMovementActions {
 
 export default class MovementActions implements IMovementActions {
   public getKnightMoves(position:string):Array<object> {
-    const MovementClass = new Movement(position);
+    const MovementClass = new MovementHandler(position);
     
     //1st turn
-    let finalResult: Array<IMovement> = MovementClass.getNextKnightMove();
+    let finalResult: Array<IMovementHandler> = MovementClass.getNextKnightMove();
     // 2nd turn
-    const mapKnightMoves: Array<Movement> = finalResult.map((knightMov: IMovement) => new Movement(knightMov));
+    const mapKnightMoves: Array<MovementHandler> = finalResult.map((knightMov: IMovementHandler) => new MovementHandler(knightMov));
     mapKnightMoves.forEach(movement => {
-        const result: Array<IMovement> = movement.getNextKnightMove();
+        const result: Array<IMovementHandler> = movement.getNextKnightMove();
         finalResult = finalResult.concat(result);
     });
     

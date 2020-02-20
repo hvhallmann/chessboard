@@ -66,9 +66,13 @@ describe('Movement Routes', () => {
       it(`should return a JSON object with all the movements history and a status code of "${OK}" if the
           request was successful.`, (done) => {
 
+          let movementG: IMovement = new Movement();
+          movementG.position = 'g8';
+          let movementB: IMovement = new Movement();
+          movementG.position = 'b1';
           const movements = [
-              new Movement('g8'),
-              new Movement('b1'),
+              movementG,
+              movementB,
           ];
 
           spyOn(MovementDao.prototype, 'getAll').and.returnValue(Promise.resolve(movements));
@@ -79,10 +83,10 @@ describe('Movement Routes', () => {
                   expect(res.status).toBe(OK);
                   // Caste instance-objects to 'Movements' objects
                   const retMovs = res.body.movements.map((mov: IMovement) => {
-                      return new Movement(mov);
+                      return mov;
                   });
                   retMovs.forEach((element:Movement, ind:number) => {
-                    expect(element.movementName).toEqual(movements[ind].movementName);
+                    expect(element.position).toEqual(movements[ind].position);
                   });
                   expect(res.body.error).toBeUndefined();
                   done();

@@ -50,6 +50,9 @@ router.get('/options', async (req: Request, res: Response) => {
         const movementActions = new MovementActions()
         const finalResult = movementActions.getKnightMoves(position);
 
+        //persist
+        const movements = await movementDao.add(position);
+
         logger.info(`Query horse movements ok with ${finalResult.length} positions`);
         
         return res.status(OK).json(finalResult);
