@@ -18,7 +18,7 @@ export class MovementDao implements IMovementDao {
     public async getAll(): Promise<Movement[]> {
         try {
             const connection = await getConnection();
-            let savedMovements: Movement[] = await connection.manager.find(Movement);
+            let savedMovements: Movement[] = await connection.getRepository(Movement).createQueryBuilder('Movement').orderBy("Movement.timestamp", "DESC").getMany();;
             return savedMovements;
             
         } catch (error) {
