@@ -1,2 +1,10 @@
 {"message":"Express server started on portz: 8081","level":"info","timestamp":"2020-02-15T12:54:14.471Z"}
 {"message":"Express server started on portz: 8081","level":"info","timestamp":"2020-02-15T13:03:11.116Z"}
+{"message":"my database url is database ","level":"info","timestamp":"2020-08-03T00:37:18.224Z"}
+{"message":"NodeENV production - Express server started on portz: 8081","level":"info","timestamp":"2020-08-03T00:37:18.242Z"}
+{"message":"my database url is database ","level":"info","timestamp":"2020-08-09T22:28:01.962Z"}
+{"message":"NodeENV production - Express server started on portz: 8081","level":"info","timestamp":"2020-08-09T22:28:01.996Z"}
+{"message":"my database url is database ","level":"info","timestamp":"2020-08-09T22:36:07.708Z"}
+{"message":"NodeENV production - Express server started on portz: 8081","level":"info","timestamp":"2020-08-09T22:36:07.731Z"}
+{"message":"my database url is database ","level":"info","timestamp":"2020-08-23T23:09:25.192Z"}
+{"message":"NodeENV production - Express server started on portz: 8081","level":"info","timestamp":"2020-08-23T23:09:25.216Z"}

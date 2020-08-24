@@ -2,5 +2,12 @@
   "watch": ["src"],
   "ext": "ts",
   "ignore": ["src/public"],
-  "exec": "ts-node -r tsconfig-paths/register ./src --env=development"
+  "exec": "ts-node -r tsconfig-paths/register ./src --env=development",
+  "env": {
+    "DATABASE_HOST": "127.0.0.1",
+    "DATABASE_PORT": "5432",
+    "DATABASE_USER": "example",
+    "DATABASE_PASSWORD": "example",
+    "DATABASE_NAME": "hackernews"
+  }
 }
