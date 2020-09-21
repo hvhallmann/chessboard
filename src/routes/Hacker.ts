@@ -101,12 +101,13 @@ router.post("/elastic", async (req: Request, res: Response) => {
 
 router.get("/elastic", async (req: Request, res: Response) => {
   try {
+    const searchFor = req.query.searchfor;
     const { body } = await client.search({
-      index: "game-of-thrones",
+      index: "who-wants-be-hired",
       body: {
         query: {
           match: {
-            quote: "winter",
+            text: `${searchFor}`,
           },
         },
       },
