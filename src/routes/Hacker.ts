@@ -102,14 +102,51 @@ router.post("/elastic", async (req: Request, res: Response) => {
 router.get("/elastic", async (req: Request, res: Response) => {
   try {
     const searchFor = req.query.searchfor;
+    const { body } = await client.search(
+      {
+        index: "who-wants-be-hired",
+        size: 20,
+        body: {
+          query: {
+            match: {
+              text: `${searchFor}`,
+            },
+          },
+          sort: [{ time: { order: "desc" } }],
+        },
+      },
+      {
+        ignore: [404],
+        maxRetries: 3,
+      }
+    );
+    logger.info(body.hits.hits);
+    res.status(OK).json(body.hits.hits);
+  } catch (err) {
+    logger.error(err.message, err);
+    return res.status(BAD_REQUEST).json({
+      error: err.message,
+    });
+  }
+});
+
+// https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-common-terms-query.html
+router.get("/elasticterms", async (req: Request, res: Response) => {
+  try {
+    const searchFor = req.query.searchfor;
     const { body } = await client.search({
       index: "who-wants-be-hired",
+      size: 20,
       body: {
         query: {
-          match: {
-            text: `${searchFor}`,
+          common: {
+            text: {
+              query: searchFor,
+              cutoff_frequency: 0.001,
+            },
           },
         },
+        sort: [{ time: { order: "desc" } }],
       },
     });
     logger.info(body.hits.hits);

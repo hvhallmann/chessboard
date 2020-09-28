@@ -119,3 +119,10 @@ run with
 _to manage index_ go
 
 Create Index Pattern
+
+#### Script to import data from HN
+
+run the imporData.js file
+for it to run properly, you will need:
+
+- setup indexes on elastic-search
